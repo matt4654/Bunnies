@@ -121,7 +121,7 @@ void field::viewEvents() const
     }
     for(int i = 0; i < newDeaths.size(); i++)
     {
-        std::cout << std::setw(23) << "Bunny " << newBirths[i]->getName() << " died!" << std::endl;
+        std::cout << std::setw(23) << "Bunny " << newDeaths[i]->getName() << " died!" << std::endl;
     }
     for(int i = 0; i < newInfected.size(); i++)
     {

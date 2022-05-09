@@ -71,7 +71,7 @@ void bunny::setNumberOfPossibleNames()
 //Return Random Attributes
 int bunny::returnRandomID()
 {
-    int randomNum = rand() % 1000;
+    int randomNum = rand() % 1001;
     return randomNum;
 }
 

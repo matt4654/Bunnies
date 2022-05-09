@@ -4,8 +4,8 @@
 #include <string>
 #include <memory>
 
-enum Sex {Male, Female};
-enum Colour {White, Brown, Black, Spotted};
+enum class Sex {Male, Female};
+enum class Colour {White, Brown, Black, Spotted};
 
 class bunny
 {
