@@ -15,6 +15,7 @@ add_executable(
     src/main.cpp
     src/bunny.cpp
     src/field.cpp
+    src/randomAttributes.cpp
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)

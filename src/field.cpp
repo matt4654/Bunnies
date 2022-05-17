@@ -1,20 +1,17 @@
 #include "../include/field.h"
+#include "../include/randomAttributes.h"
 
 #include <iostream>
 #include <memory>
 #include <iomanip>
 
-int field::infected = 0;
-
-//Constructor
-field::field()
+field::field() : numberOfInfected(0)
 {
-    bunny::setNumberOfPossibleNames();
+    randAt::setNumberOfPossibleNames();
     addBunnies(5);
     viewAllBunnyInfo();
 };
 
-//Other Methods
 
 void field::addBunnies(int n)
 {
@@ -41,18 +38,19 @@ int field::bunnyCount() const
 
 int field::infectedCount()
 {
-    infected = 0;
+    numberOfInfected = 0;
     std::list<std::shared_ptr<bunny>>::iterator i;
     for(i = bunnies.begin(); i != bunnies.end(); ++i)
     {
         if((**i).getIsInfected() == true)
         {
-            ++infected;
+            ++numberOfInfected;
         }
     }
-    return infected;
+    return numberOfInfected;
 }
 
+//Kills, births, infects, and ages bunnies in one iteration
 void field::bunnyLifeCycle()
 {
     newBirths.clear();
@@ -74,13 +72,13 @@ void field::bunnyLifeCycle()
             bunnies.erase(i++);
             continue;
         }
-        if((**i).getSex() == Sex::Female && (**i).getAge() >= 2 && (**i).getIsInfected() == false && fertileMale() == true)
+        if((**i).getSex() == Sex::Female && (**i).getAge() >= 2 && (**i).getIsInfected() == false && isFertileMale() == true)
         {
             std::shared_ptr<bunny> b = std::make_shared<bunny>(*i);
             bunnies.push_front(b);
             newBirths.push_back(b);
         }
-        if((**i).getIsInfected() == false && j < infected)
+        if((**i).getIsInfected() == false && j < numberOfInfected)
         {
             (**i).infect();
             newInfected.push_back(*i);
@@ -128,8 +126,8 @@ void field::viewEvents() const
         std::cout << std::setw(23) << "Bunny " << newInfected[i]->getName() << " got infected!" << std::endl;
     }
 }
-
-bool field::fertileMale() const
+ 
+bool field::isFertileMale() const
 {
     bool fertileMale = false;
     std::list<std::shared_ptr<bunny>>::const_iterator i;
@@ -144,6 +142,7 @@ bool field::fertileMale() const
     return fertileMale;
 }
 
+//Arguments for the 'sort' function so that it sorts bunnies by descending age and id respectively  
 bool field::compareAge(const std::shared_ptr<bunny> &first, const std::shared_ptr<bunny> &second)
     {
         return(first->getAge() > second->getAge());

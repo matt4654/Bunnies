@@ -1,4 +1,5 @@
 #include "../include/bunny.h"
+#include "../include/randomAttributes.h"
 
 #include <stdlib.h>
 #include <iostream>
@@ -6,15 +7,13 @@
 #include <iomanip>
 #include <map>
 
-int bunny::numberOfPossibleNames = 0;
+bunny::bunny()
+    : id(randAt::returnRandomID()), name(randAt::returnRandomName()), age(0), sex(randAt::returnRandomSex()), colour(randAt::returnRandomColour()), isInfected(randAt::returnRandomIsInfected()) {}
 
-//Constructors
-bunny::bunny() : id(returnRandomID()), name(returnRandomName()), age(0), sex(returnRandomSex()), colour(returnRandomColour()), isInfected(returnRandomIsInfected()) {}
-
-bunny::bunny(const std::shared_ptr<bunny> &mother) : id(returnRandomID()), name(returnRandomName()), age(0), sex(returnRandomSex()), colour(mother->getColour()), isInfected(returnRandomIsInfected()) {}
+bunny::bunny(const std::shared_ptr<bunny> &mother) 
+    : id(randAt::returnRandomID()), name(randAt::returnRandomName()), age(0), sex(randAt::returnRandomSex()), colour(mother->getColour()), isInfected(randAt::returnRandomIsInfected()) {}
 
 
-//Get/Set
 int bunny::getID() const
 {
     return id;
@@ -57,64 +56,7 @@ bool bunny::getIsInfected() const
     return isInfected;
 }
 
-void bunny::setNumberOfPossibleNames()
-{
-    int numberOfLines = 0;
-    std::string line;
-    std::ifstream myfile("exampleNames.txt");
-    while(std::getline(myfile, line)) {++numberOfLines;}
 
-    numberOfPossibleNames = numberOfLines;
-}
-
-
-//Return Random Attributes
-int bunny::returnRandomID()
-{
-    int randomNum = rand() % 1001;
-    return randomNum;
-}
-
-std::string bunny::returnRandomName()
-{
-    int randomNum = rand() % numberOfPossibleNames;
-    int counter = 0;
-    std::string name;
-    std::ifstream input("exampleNames.txt");
-    while(getline(input, name))
-    {
-        if(randomNum == counter)
-        {
-            return name;
-        }
-        counter++;
-    }
-    return name;
-}
-
-Sex bunny::returnRandomSex()
-{
-    int randNum = rand() % 100;
-    return randNum % 2 == 0 ? Sex::Male : Sex::Female;
-}
-
-Colour bunny::returnRandomColour()
-{
-    int randNum = rand() % 100;
-    if(randNum < 25) {return Colour::White;}
-    else if(randNum < 50) {return Colour::Brown;}
-    else if(randNum < 75) {return Colour::Black;}
-    else {return Colour::Spotted;}
-}
-
-bool bunny::returnRandomIsInfected()
-{
-    int randNum = rand() % 100;
-    return randNum < 2 ? true : false;
-}
-
-
-//Other Methods
 void bunny::viewBunnyInfo() const
 {
     std::cout << std::setw(10) << name << std::setw(10) << age << std::setw(10) << getSexString(sex) << std::setw(10) << getColourString(colour);
