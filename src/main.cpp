@@ -7,16 +7,18 @@ int main()
 {
     srand(time(0));
     field myField;
-    system("pause");
+    std::cout << "Press enter for next turn..." << std::endl;
+    std::cin.get();
     while(myField.bunnyCount() > 0)
     {
+        std::cout << std::endl;
         if(myField.bunnyCount() > 1000)
         {
             myField.killHalf();
         }
-        system("cls");
         myField.turn();
-        system("pause");
+        std::cout << "Press enter for next turn..." << std::endl;
+        std::cin.get();
     }
     
     return 0;
